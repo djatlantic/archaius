@@ -21,20 +21,7 @@ pipeline {
             sh 'sh test.sh'
           }
         }
-        post {
-  always {
-   archiveArtifacts(artifacts: 'target/demoapp.jar', fingerprint: true)
-  }
-
-failure {
-      mail to: 'ci-team@example.com',
-      subject: "Failed Pipeline ${currentBuild.fullDisplayName}",
-      body: " For details about the failure, see ${env.BUILD_URL}"
-     }
-  }
-
-      }
-    }
+   
 
     stage('deploy staging') {
       steps {
@@ -50,4 +37,18 @@ failure {
     }
 
   }
+           post {
+  always {
+   archiveArtifacts(artifacts: 'target/demoapp.jar', fingerprint: true)
+  }
+
+failure {
+      mail to: 'ci-team@example.com',
+      subject: "Failed Pipeline ${currentBuild.fullDisplayName}",
+      body: " For details about the failure, see ${env.BUILD_URL}"
+     }
+  }
+
+      }
+    }
 }
